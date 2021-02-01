@@ -1,25 +1,20 @@
-var express = require("express");
+const express = require('express');
+const app = express();
+const userController = require('./controllers/UserController');
+const homeController = require('./controllers/HomeController');
 
-var app = express();
+app.set('view engine', 'ejs');
 
-app.set("view engine", "ejs");
-
-const layout = require("express-ejs-layouts");
+const layout = require('express-ejs-layouts');
 
 app.use(layout);
 
-app.get("/", (req, res) => {
-  res.render("./home.ejs");
-});
+app.get('/', homeController.doGetHome);
 
-app.get("/login", (req, res) => {
-  res.render("./login.ejs");
-});
+app.get('/login', userController.doGetLogin);
 
-app.get("/register", (req, res) => {
-  res.render("./register.ejs");
-});
+app.get('/register', userController.doGetRegister);
 
 app.listen(3000);
 
-console.log("server started");
+console.log('server started');
