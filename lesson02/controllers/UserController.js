@@ -1,10 +1,10 @@
 const { render } = require('ejs');
 const { response } = require('express');
 const express = require('express');
+const { validationResult } = require('express-validator');
 
 let formObj = function () {
   return {
-    hasError: false,
     userName: null,
     emailAddress: null,
     password: null,
@@ -13,37 +13,15 @@ let formObj = function () {
     emailError: null,
     passError: null,
     confirmPassError: null,
-    passNotMatchError: null,
   };
 };
 
-function validateForm(form) {
-  let hasError = false;
-  if (!form.userName) {
-    form.userNameError = 'ユーザー名は必須入力です。';
-    hasError = true;
-  }
-  if (!form.emailAddress) {
-    form.emailError = 'メールは必須入力です。';
-    hasError = true;
-  }
-  if (!form.password) {
-    form.passError = 'パスワードは必須入力です。';
-    hasError = true;
-  } else if (form.password.length < 7) {
-    form.passError = 'パスワードは7文字以上入力して下さい。';
-    hasError = true;
-  }
-
-  if (!form.confirmPassword) {
-    form.confirmPassError = '確認用パスワードは必須入力です。';
-    hasError = true;
-  }
-  if (form.password != form.confirmPassword) {
-    form.passNotMatchError = 'パスワードが確認用と一致しません';
-    hasError = true;
-  }
-  return hasError;
+function setErrorMessages(form, validationResult) {
+  const errorFields = validationResult.mapped();
+  form.userNameError = errorFields.userName != null ? errorFields.userName.msg : null;
+  form.emailError = errorFields.emailAddress != null ? errorFields.emailAddress.msg : null;
+  form.passError = errorFields.password != null ? errorFields.password.msg : null;
+  form.confirmPassError = errorFields.confirmPassword != null ? errorFields.confirmPassword.msg : null;
 }
 
 module.exports = {
@@ -63,10 +41,13 @@ module.exports = {
     form.confirmPassword = req.body.confirmPassword;
 
     //バリデーション
-    const hasError = validateForm(form);
+    const result = validationResult(req);
+    const hasError = !result.isEmpty();
 
     //バリデーションエラーの場合、エラーメッセージを追加して、フォームを再表示する
     if (hasError) {
+      console.log(result.array());
+      setErrorMessages(form, result);
       res.render('register', { form: form });
     } else {
       //バリデーションがOKなら、ホーム画面へリダイレクト

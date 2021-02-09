@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const userController = require('./controllers/UserController');
 const homeController = require('./controllers/HomeController');
+const validateNewUser = require('./validators/NewUserValidator');
 
 app.set('view engine', 'ejs');
 
@@ -42,7 +43,7 @@ app.get('/', userController.doGetLogin);
 app.post('/login', userController.doPostLogin);
 app.get('/login', userController.doGetLogin);
 app.get('/register', userController.doGetRegister);
-app.post('/register', userController.doPostRegister);
+app.post('/register', validateNewUser, userController.doPostRegister);
 
 app.listen(3000);
 
