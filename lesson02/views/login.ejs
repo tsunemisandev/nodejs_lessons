@@ -1,11 +1,11 @@
-<form>
+<form action="/login" method="POST">
   <div class="form-group">
-    <label for="emailAddress">Email address</label>
-    <input type="email" class="form-control" id="emailAddress" aria-describedby="emailHelp" />
+    <label for="userName">User name</label>
+    <input type="text" name="userName" class="form-control" id="userName" aria-describedby="emailHelp" />
   </div>
   <div class="form-group">
     <label for="password">Password</label>
-    <input type="password" class="form-control" id="password" />
+    <input type="password" name="password" class="form-control" id="password" />
   </div>
   <button type="submit" class="btn btn-primary">Login</button>
   <a href="#" class="ml-2">Forgot your password?</a>
