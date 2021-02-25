@@ -5,6 +5,8 @@ const PORT = 3000;
 //instantiate app
 const app = express();
 
+app.use(express.static('public'));
+
 //serve route
 app.get('/questions/list/', questionController.doGetListQuestions);
 
