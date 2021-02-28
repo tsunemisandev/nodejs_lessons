@@ -1,4 +1,13 @@
+/**
+ * 結果を表示する画面を作成
+ * ホーム画面へ返す手段を作成
+ */
 class ResultUI {
+  /**
+   *　画面を作成し、表示する
+   *
+   * @param {int} correctAnswer ユーザーの正答数
+   */
   static render(correctAnswer) {
     this.createHeader(correctAnswer);
     this.createBody();
@@ -27,11 +36,17 @@ class ResultUI {
     let btn_start = document.createElement('button');
     btn_start.innerHTML = 'ホームへ戻る';
     btn_start.addEventListener('click', function () {
-      this.HomeUI.render();
+      this.homePage.render();
     });
     return btn_start;
   }
-  static setHome(HomeUI) {
-    this.HomeUI = HomeUI;
+  /**
+   *
+   * 「ホームへ戻る」ボタンが表示するUIクラスを記憶する
+   *
+   * @param {class} homePage
+   */
+  static setHomePage(homePage) {
+    this.homePage = homePage;
   }
 }

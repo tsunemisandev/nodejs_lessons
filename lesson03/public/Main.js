@@ -1,6 +1,10 @@
 class Main {
+  /**
+   * ルート画面を表示する
+   */
   static init() {
     HomeUI.render();
-    ResultUI.setHome(HomeUI);
+    //結果表示ページのボタンから表示するページを指定
+    ResultUI.setHomePage(HomeUI);
   }
 }

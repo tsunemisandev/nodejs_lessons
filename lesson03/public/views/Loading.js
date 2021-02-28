@@ -1,9 +1,16 @@
+/**
+ * 非同期処理待機中に表示する画面
+ */
 class Loading {
+  /**
+   * 画面を作成する
+   */
   static render() {
     Loading.createHeader();
     Loading.createContent();
     Loading.createFooter();
   }
+
   static createHeader() {
     let title = '取得中';
     let h1 = document.createElement('h1');

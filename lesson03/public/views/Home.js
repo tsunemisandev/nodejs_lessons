@@ -1,3 +1,7 @@
+/**
+ * ホーム画面を作成し、表示する。
+ * 問題集の回答ページを表示するボタンを作成する。
+ */
 class HomeUI {
   static render() {
     HomeUI.createHeader();
