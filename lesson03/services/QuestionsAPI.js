@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 const Question = require('../models/Question');
-const QUESTION_API_URL = 'https://opentdb.com/api.php?amount=10';
+const QUESTION_API_URL = 'https://opentdb.com/api.php?amount=2';
 
 async function getQuestions(res) {
   fetch(QUESTION_API_URL)
@@ -15,11 +15,10 @@ async function getQuestions(res) {
     });
 }
 function createListQuestions(json) {
-  let questions = [];
-  for (let i in json.results) {
-    let question = createQuestion(json.results[i]);
-    questions.push(question);
-  }
+  const questions = json.results.map((item) => {
+    return createQuestion(item);
+  });
+
   return questions;
 }
 

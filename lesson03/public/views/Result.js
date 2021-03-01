@@ -15,30 +15,33 @@ class ResultUI {
   }
 
   static createHeader(correctedAnswerNum) {
-    let text = `あなたの正答数は ${correctedAnswerNum}です！`;
-    let header = document.querySelector('.js-header');
-    header.innerHTML = `<h1>${text}</h1>`;
+    const text = `あなたの正答数は ${correctedAnswerNum}です！`;
+    const header = document.querySelector('.js-header');
+    header.innerHTML = '';
+    const h1 = document.createElement('h1');
+    h1.innerHTML = text;
+    header.appendChild(h1);
   }
   static createBody() {
-    let text = '再チャレンジしたい場合は、以下をクリック';
-    let content = document.querySelector('.js-content');
+    const text = '再チャレンジしたい場合は、以下をクリック';
+    const content = document.querySelector('.js-content');
     content.innerHTML = text;
   }
 
   static createFooter() {
-    let btn_start = createBtnStart();
-    let footer = document.querySelector('.js-footer');
+    const btnBackHome = this.createBtnHome();
+    const footer = document.querySelector('.js-footer');
     footer.innerHTML = '';
-    footer.appendChild(btn_start);
+    footer.appendChild(btnBackHome);
   }
 
   static createBtnHome() {
-    let btn_start = document.createElement('button');
-    btn_start.innerHTML = 'ホームへ戻る';
-    btn_start.addEventListener('click', function () {
-      this.homePage.render();
+    const btnBackHome = document.createElement('button');
+    btnBackHome.innerHTML = 'ホームへ戻る';
+    btnBackHome.addEventListener('click', function () {
+      ResultUI.homePage.render();
     });
-    return btn_start;
+    return btnBackHome;
   }
   /**
    *

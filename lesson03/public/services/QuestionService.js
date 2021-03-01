@@ -7,13 +7,15 @@ class QuestionService {
 
   static getCorrectedNum(questionsJson, userChoices) {
     let correctedAnswerNum = 0;
-    for (let i in questionsJson) {
-      let correctAnswer = questionsJson[i].correct_answer;
-      let userAnswer = userChoices[i];
+
+    questionsJson.forEach((questionJson, questionNum) => {
+      const correctAnswer = questionJson.correctAnswer;
+      const userAnswer = userChoices[questionNum];
+
       if (correctAnswer === userAnswer) {
         correctedAnswerNum++;
       }
-    }
+    });
     return correctedAnswerNum;
   }
 

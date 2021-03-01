@@ -3,8 +3,8 @@ class Question {
     this.category = category;
     this.difficulty = difficulty;
     this.question = question;
-    this.correct_answer = correct_answer;
-    this.incorrect_answers = incorrect_answers;
+    this.correctAnswer = correct_answer;
+    this.incorrectAnswers = incorrect_answers;
   }
 }
 

@@ -28,20 +28,20 @@ class QuestionsUI {
       QuestionsUI.createQuestion(questionsJson, currentQuestionNum);
       QuestionsUI.createChoices(questionsJson, currentQuestionNum);
     } else {
-      let correctedAnswerNum = QuestionService.getCorrectedNum(questionsJson, UserChoices.choices);
+      const correctedAnswerNum = QuestionService.getCorrectedNum(questionsJson, UserChoices.choices);
       ResultUI.render(correctedAnswerNum);
     }
   }
 
   static createHeader(questionsJson, currentQuestionNum) {
-    let question = questionsJson[currentQuestionNum];
+    const question = questionsJson[currentQuestionNum];
 
     //問題番号を表示する
-    let title = `問題${QuestionService.getCurrentQuestionDisplayNum(currentQuestionNum)}`;
-    let h1 = document.createElement('h1');
-    let text = document.createTextNode(title);
+    const title = `問題${QuestionService.getCurrentQuestionDisplayNum(currentQuestionNum)}`;
+    const h1 = document.createElement('h1');
+    const text = document.createTextNode(title);
     h1.appendChild(text);
-    let header = document.querySelector('.js-header');
+    const header = document.querySelector('.js-header');
     header.innerHTML = '';
     header.appendChild(h1);
 
@@ -61,9 +61,9 @@ class QuestionsUI {
    *
    */
   static createQuestion(questionsJson, currentQuestionNum) {
-    let question = questionsJson[currentQuestionNum];
-    let text = question.question;
-    let content = document.querySelector('.js-content');
+    const question = questionsJson[currentQuestionNum];
+    const text = question.question;
+    const content = document.querySelector('.js-content');
     content.innerHTML = '';
     content.innerHTML = text;
   }
@@ -78,39 +78,47 @@ class QuestionsUI {
    * @param {int} currentQuestionNum
    */
   static createChoices(questionsJson, currentQuestionNum) {
-    let question = questionsJson[currentQuestionNum];
-    let btn_answer = document.createElement('button');
+    const question = questionsJson[currentQuestionNum];
+    const btnAnswer = document.createElement('button');
 
-    btn_answer.innerHTML = question.correct_answer;
-    btn_answer.value = question.correct_answer;
-    btn_answer.style.display = 'block';
+    btnAnswer.innerHTML = question.correctAnswer;
+    btnAnswer.value = question.correctAnswer;
+    btnAnswer.style.display = 'block';
 
-    btn_answer.addEventListener('click', function (e) {
-      let userAnswer = e.target.value;
-      UserChoices.choices.push(userAnswer);
-      currentQuestionNum++;
-      QuestionsUI.renderQuestion(questionsJson, currentQuestionNum);
-    });
+    const footer = document.querySelector('.js-footer');
+    footer.innerHTML = '';
+    const choices = document.createElement('div');
+    choices.class = 'js-choices';
+    footer.appendChild(choices);
 
-    let footer = document.querySelector('.js-footer');
-    footer.innerHTML = '<div class="js-choices"></div>';
+    const shuffledChoices = this.shuffleChoices(question);
 
-    let choices = footer.querySelector('.js-choices');
-    choices.appendChild(btn_answer);
-
-    question.incorrect_answers.forEach((item) => {
-      let btn_incorrect = document.createElement('button');
-      btn_incorrect.innerHTML = item;
-      btn_incorrect.value = item;
-      btn_incorrect.style.display = 'block';
-      btn_incorrect.addEventListener('click', function (e) {
-        let userAnswer = e.target.value;
+    shuffledChoices.forEach((item) => {
+      const btnIncorrect = document.createElement('button');
+      btnIncorrect.innerHTML = item;
+      btnIncorrect.value = item;
+      btnIncorrect.style.display = 'block';
+      btnIncorrect.addEventListener('click', function (e) {
+        const userAnswer = e.target.value;
         UserChoices.choices.push(userAnswer);
         currentQuestionNum++;
         QuestionsUI.renderQuestion(questionsJson, currentQuestionNum);
       });
-      choices.appendChild(btn_incorrect);
+      choices.appendChild(btnIncorrect);
     });
+  }
+  static shuffleChoices(question) {
+    const choices = [];
+    choices.push(question.correctAnswer);
+    choices.push(question.incorrectAnswers);
+
+    for (let i = choices.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = choices[i];
+      choices[i] = choices[j];
+      choices[j] = temp;
+    }
+    return choices;
   }
 }
 
