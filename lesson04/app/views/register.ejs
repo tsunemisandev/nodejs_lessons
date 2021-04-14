@@ -1,0 +1,22 @@
+<form action="/user/register" method="post">
+    <div>
+        <input type="text" name="username" placeholder="Username">
+
+    </div>
+    <div>
+        <input type="email" name="email" placeholder="Email">
+    </div>
+    <div>
+        <input type="password" name="password" placeholder="Password">
+    </div>
+    <div>
+        <input type="password" name="confirmPassword" placeholder="Confirm password">
+    </div>
+    <div>
+        <button>Register</button>
+    </div>
+    <%=locals.error %>
+    <% if(locals.errorList) {%>
+        <%locals.errorList.forEach(error=>{%><p><%=error %></p> <%})%>
+    <%}%>
+</form>
