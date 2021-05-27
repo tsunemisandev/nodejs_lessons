@@ -77,7 +77,7 @@ class UserController {
         res.cookie('token', token, {
           httpOnly: true,
         });
-        //send status code OK
+        //send statuss code OK
         res.status(200).send('OK');
       } else {
         //if not send error
