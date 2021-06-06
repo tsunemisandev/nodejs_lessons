@@ -42,7 +42,22 @@
            if(req.status == 200){
                window.location = '/posts';
            }else {
-              msg = req.responseText;
+               const errorMsg = JSON.parse(req.response);
+               if(errorMsg.errors){
+                   errorMsg.errors.forEach(error => {
+                        let paramName = error.param;
+                        if(paramName==='name'){
+                            msg+='名前:'+error.msg+'<br>'
+                        }else if(paramName ==='email'){
+                            msg+='メール:'+error.msg+'<br>'
+                        }else if(paramName ==='password'){
+                            msg+='パスワード:'+error.msg+'<br>'
+                        }else if(paramName ==='confirmPassword'){
+                            msg+='パスワードの再確認:'+error.msg+'<br>'
+                        }
+
+                   });
+               }
            }
            const messageTxt = document.getElementById('message');
            messageTxt.innerHTML = msg;

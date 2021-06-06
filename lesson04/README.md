@@ -15,3 +15,58 @@
 - [学習内容]
   - 新規登録・ログインによるデータベース上の users テーブルとの紐付け
   - token の管理方法（token 生成には JWT を使用してください）
+
+# JS 課題 4-1
+
+# Features
+
+主に以下を学習するプロジェクト
+
+- JWT によるユーザーの認証、認可
+- 新規ユーザーの登録
+- ログイン機能
+- ログアウト機能
+
+# Requirement
+
+- Docker compose
+
+# Usage
+
+プロジェクトをクローン
+
+```bash
+git clone https://github.com/tsunemisandev/nodejs_lessons.git
+```
+
+次のフォルダに移動
+
+```bash
+cd lesson04
+```
+
+App.env ファイルにて、環境変数を設定。以下は、クローン時のものです。
+
+```bash
+DB_HOST=my_sql　＃DBのホストアドレス、dockerサービスを指しています。
+DB_USER=root　　
+DB_PASSWORD=123123
+DB_BASE_NAME=node_app
+
+APP_PORT=3000
+AUTH_SECRET=12312　＃JWTをエンコードするためのキー
+```
+
+DB とアプリサーバーの起動
+
+```bash
+docker-compose build
+docker-compose up
+```
+
+ログインページをアクセス
+[ログインページ](http://localhost:3000/login)
+
+# Note
+
+新規ログイン登録に全角が使用できません。今後の課題です。

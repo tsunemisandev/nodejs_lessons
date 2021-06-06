@@ -1,16 +1,15 @@
 import { celebrate } from 'celebrate';
 import express from 'express';
 import UserController from '../controllers/UserController';
-import userViewSchema from '../models/UserRegisterViewSchema';
-import userLoginViewSchema from '../models/UserLoginViewSchema';
-
+import userValidator from '../validators/NewUserValidator';
+import loginValidator from '../validators/LoginValidator';
 const router = express.Router();
 const userController = new UserController();
 
-router.post('/register', celebrate(userViewSchema, { abortEarly: false }), userController.register);
+router.post('/register', userValidator, userController.register);
 router.get('/register', userController.registerPage);
 router.get('/login', userController.loginPage);
-router.post('/login', celebrate(userLoginViewSchema, { abortEarly: false }), userController.login);
+router.post('/login', loginValidator, userController.login);
 router.get('/logout', userController.logout);
 
 export default router;

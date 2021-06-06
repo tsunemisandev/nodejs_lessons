@@ -10,11 +10,18 @@ import { celebrate } from 'celebrate';
 import Joi from 'joi';
 import { send } from 'process';
 import AuthUtil from '../utils/AuthUtil';
+import { validationResult } from 'express-validator';
 
 class UserController {
   async register(req: Request, res: Response, next: NextFunction) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+    }
+
     const userDao: UserDao = new UserDao();
-    console.log('register()');
+
     try {
       //フォームデータの取得
       const { name, email, password, confirmPassword } = req.body;
@@ -22,22 +29,15 @@ class UserController {
       const hashedPassword = bcrypt.hashSync(password, auth.SALT);
       //DB登録用のユーザーオブジェクトを作成
       const newUser = new User(name, email, hashedPassword);
-      //ユーザー名が登録済みの場合、エラーメッセージを返す
-      const userExists = await userDao.exists(newUser);
-      if (userExists) {
-        const userAlreadyExistsError = 'ユーザー名はすでに利用されています。';
-        res.status(200).json({ error: userAlreadyExistsError });
-      } else {
-        //ユーザーをDBに挿入
-        const id = userDao.insert(newUser);
-        //jwtを生成
-        const token = AuthUtil.sign(newUser);
-        //jwtをクッキーにてクライアントに補完する
-        res.cookie('token', token, {
-          httpOnly: true,
-        });
-        res.status(200).json({ token: token });
-      }
+      //ユーザーをDBに挿入
+      const id = userDao.insert(newUser);
+      //jwtを生成
+      const token = AuthUtil.sign(newUser);
+      //jwtをクッキーにてクライアントに補完する
+      res.cookie('token', token, {
+        httpOnly: true,
+      });
+      res.status(200).json({ token: token });
     } catch (e) {
       console.log(e);
       res.status(500).json({ error: '予期しないエラーが発生しました。' });
@@ -63,6 +63,11 @@ class UserController {
     res.render('login');
   }
   async login(req: Request, res: Response) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+    }
+
     const userDao: UserDao = new UserDao();
     const { email, password } = req.body;
     const user: User = await userDao.existsByEmail(email);

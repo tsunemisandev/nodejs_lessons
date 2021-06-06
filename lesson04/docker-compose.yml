@@ -5,9 +5,8 @@ services:
     image: mysql:5.7
     container_name: mysql
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: '123123'
-      MYSQL_DATABASE: 'node_app'
+    env_file:
+      - DB.env
     ports:
       - '3306:3306'
     volumes:
@@ -26,6 +25,8 @@ services:
       - 3000:3000
     links:
       - my_sql
+    volumes:
+      - .:/usr/src/app
 
 volumes:
   my_volume:
