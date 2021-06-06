@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+  my_sql:
+    image: mysql:5.7
+    container_name: mysql
+    restart: always
+    env_file:
+      - DB.env
+    ports:
+      - '3306:3306'
+    volumes:
+      - my_volume:/var/lib/mysql
+  app:
+    image: app
+    env_file:
+      - App.env
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    #command: sh -c 'npm run knex:migrate'
+    depends_on:
+      - my_sql
+    ports:
+      - 3000:3000
+    links:
+      - my_sql
+    volumes:
+      - .:/usr/src/app
+
+volumes:
+  my_volume:
