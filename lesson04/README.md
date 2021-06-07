@@ -65,6 +65,16 @@ APP_PORT=3000
 AUTH_SECRET=123123
 ```
 
+Docker compose を用いてイメージをビルドし、実行
+
+```bash
+docker-compose build
+```
+
+```bash
+docker-compose up
+```
+
 ログインページをアクセス
 [ログインページ](http://localhost:3000/login)
 
