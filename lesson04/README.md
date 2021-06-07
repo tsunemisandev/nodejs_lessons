@@ -45,8 +45,8 @@ git clone https://github.com/tsunemisandev/nodejs_lessons.git
 cd lesson04
 ```
 
-そのフォルダ内に環境変数ファイル 「.env」 を作成
-クローンした「.env.example」のファイル名を編集してそのまま利用しても OK
+そのフォルダ内に環境変数ファイル 「.env」 を作成\
+クローンした「.env.example」のファイル名を編集してそのまま利用しても OK\
 内容は以下の通り。
 
 ```bash
