@@ -18,29 +18,28 @@ class UserController {
 
     if (!errors.isEmpty()) {
       res.status(422).json({ errors: errors.array() });
-    }
-
-    const userDao: UserDao = new UserDao();
-
-    try {
-      //フォームデータの取得
-      const { name, email, password, confirmPassword } = req.body;
-      //パスワードのハッシュを取得
-      const hashedPassword = bcrypt.hashSync(password, auth.SALT);
-      //DB登録用のユーザーオブジェクトを作成
-      const newUser = new User(name, email, hashedPassword);
-      //ユーザーをDBに挿入
-      const id = userDao.insert(newUser);
-      //jwtを生成
-      const token = AuthUtil.sign(newUser);
-      //jwtをクッキーにてクライアントに補完する
-      res.cookie('token', token, {
-        httpOnly: true,
-      });
-      res.status(200).json({ token: token });
-    } catch (e) {
-      console.log(e);
-      res.status(500).json({ error: '予期しないエラーが発生しました。' });
+    } else {
+      const userDao: UserDao = new UserDao();
+      try {
+        //フォームデータの取得
+        const { name, email, password, confirmPassword } = req.body;
+        //パスワードのハッシュを取得
+        const hashedPassword = bcrypt.hashSync(password, auth.SALT);
+        //DB登録用のユーザーオブジェクトを作成
+        const newUser = new User(name, email, hashedPassword);
+        //ユーザーをDBに挿入
+        const id = userDao.insert(newUser);
+        //jwtを生成
+        const token = AuthUtil.sign(newUser);
+        //jwtをクッキーにてクライアントに補完する
+        res.cookie('token', token, {
+          httpOnly: true,
+        });
+        res.status(200).json({ token: token });
+      } catch (e) {
+        console.log(e);
+        res.status(500).json({ error: '予期しないエラーが発生しました。' });
+      }
     }
   }
 

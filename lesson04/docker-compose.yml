@@ -5,16 +5,21 @@ services:
     image: mysql:5.7
     container_name: mysql
     restart: always
-    env_file:
-      - DB.env
+    environment:
+      MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD}'
+      MYSQL_DATABASE: '${MYSQL_DATABASE}'
     ports:
       - '3306:3306'
     volumes:
       - my_volume:/var/lib/mysql
   app:
     image: app
-    env_file:
-      - App.env
+    environment:
+      APP_PORT: '${APP_PORT}'
+      DB_HOST: '${DB_HOST}'
+      DB_USER: '${DB_USER}'
+      DB_PASSWORD: '${DB_PASSWORD}'
+      DB_BASE_NAME: '${DB_BASE_NAME}'
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -22,7 +27,7 @@ services:
     depends_on:
       - my_sql
     ports:
-      - 3000:3000
+      - '${APP_PORT}:${APP_PORT}'
     links:
       - my_sql
     volumes:

@@ -4,5 +4,4 @@ package-lock.json
 
 .DS_Store
 
-db.env
-app.env
+.env
