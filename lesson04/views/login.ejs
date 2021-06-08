@@ -46,6 +46,8 @@ function login(){
                             msg+='パスワード:'+error.msg+'<br>'
                         }
                    });
+               }else if(errorMsg.error){
+                   msg+= errorMsg.error;
                }
         }
         const messageTxt = document.getElementById('message');
