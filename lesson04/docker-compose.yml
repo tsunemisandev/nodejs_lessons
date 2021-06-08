@@ -32,6 +32,7 @@ services:
       - my_sql
     volumes:
       - .:/usr/src/app
+      - /usr/src/app/node_modules
 
 volumes:
   my_volume:
