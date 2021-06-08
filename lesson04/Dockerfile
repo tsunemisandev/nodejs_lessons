@@ -4,4 +4,6 @@ COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
 RUN npm install
 COPY . .
 EXPOSE ${APP_PORT}
-CMD ["npm", "start"]
+
+RUN chmod +x ./entrypoint.sh
+ENTRYPOINT ["sh","./entrypoint.sh"]

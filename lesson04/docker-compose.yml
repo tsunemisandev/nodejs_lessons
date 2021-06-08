@@ -23,7 +23,6 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    #command: sh -c 'npm run knex:migrate'
     depends_on:
       - my_sql
     ports:
