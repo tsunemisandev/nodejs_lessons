@@ -1,5 +1,3 @@
-# JS 課題 4-1
-
 【要件】
 
 - [1]新規登録画面&新規登録処理
@@ -18,9 +16,11 @@
   - 新規登録・ログインによるデータベース上の users テーブルとの紐付け
   - token の管理方法（token 生成には JWT を使用してください）
 
+# JS 課題 4-1
+
 # Features
 
-主に以下を学習するためのプロジェクト
+主に以下を学習するプロジェクト
 
 - JWT によるユーザーの認証、認可
 - 新規ユーザーの登録
@@ -45,49 +45,28 @@ git clone https://github.com/tsunemisandev/nodejs_lessons.git
 cd lesson04
 ```
 
-そのフォルダ内に環境変数ファイル 「.env」 を作成\
-クローンした「.env.example」のファイル名を編集してそのまま利用しても OK\
-内容は以下の通り。
+App.env ファイルにて、環境変数を設定。以下は、クローン時のものです。
 
 ```bash
-#新たな環境変数を追加した場合、docker-compose.ymlにも追加する
-
-＃DB周りの環境変数
- MYSQL_ROOT_PASSWORD: '123123'
- MYSQL_DATABASE: 'node_app'
-
-#アプリ周りの環境変数
-DB_HOST=my_sql
-DB_USER=root
+DB_HOST=my_sql　＃DBのホストアドレス、dockerサービスを指しています。
+DB_USER=root　　
 DB_PASSWORD=123123
 DB_BASE_NAME=node_app
+
 APP_PORT=3000
-AUTH_SECRET=123123
+AUTH_SECRET=12312　＃JWTをエンコードするためのキー
 ```
 
-Docker compose を用いてイメージをビルドし、実行
+DB とアプリサーバーの起動
 
 ```bash
 docker-compose build
-```
-
-```bash
 docker-compose up
 ```
 
 ログインページをアクセス
 [ログインページ](http://localhost:3000/login)
 
-ログインされていない場合、常にログインページを表示します
-以下と同じ登録画面へのリンクが画面にも表示されます。
-
-[登録]()
-
-ログイン済みの場合、
-
-- [posts へアクセス可能になります](http://localhost:3000/posts)
-- [ログアウトリンク](http://localhost:3000/register)が常に表示されます。
-
 # Note
 
-新規登録に全角を使用するとエラーが発生します。今後の課題です。
+新規ログイン登録に全角が使用できません。今後の課題です。
