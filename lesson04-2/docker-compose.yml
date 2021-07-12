@@ -1,0 +1,37 @@
+version: '3.4'
+
+services:
+  my_sql:
+    image: mysql:5.7
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD}'
+      MYSQL_DATABASE: '${MYSQL_DATABASE}'
+    ports:
+      - '3306:3306'
+    volumes:
+      - my_volume:/var/lib/mysql
+  app:
+    image: app
+    environment:
+      APP_PORT: '${APP_PORT}'
+      DB_HOST: '${DB_HOST}'
+      DB_USER: '${DB_USER}'
+      DB_PASSWORD: '${DB_PASSWORD}'
+      DB_BASE_NAME: '${DB_BASE_NAME}'
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    depends_on:
+      - my_sql
+    ports:
+      - '${APP_PORT}:${APP_PORT}'
+    links:
+      - my_sql
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+volumes:
+  my_volume:
