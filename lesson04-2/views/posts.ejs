@@ -1,0 +1,78 @@
+<%- include('header')%>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            .post {
+                border: 1px solid #000;
+                margin-top: 5px;
+                padding: 10px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="message"></div>
+        <div class='posts'>
+
+        </div>
+    </body>
+    <script>
+        const req = new XMLHttpRequest();
+
+        req.open('GET', '/post/list');
+        req.setRequestHeader('Content-type', 'application/json');
+        req.send();
+
+        req.onload = () => {
+            const res = JSON.parse(req.response);
+            if (req.status == 200) {
+                const posts = res.posts;
+                var root = document.querySelector('.posts');
+                posts.forEach(post => {
+                    createPostView(post, root);
+                });
+            } else {
+                if (res.errorMessage) {
+                    const message = document.getElementById('message');
+                    message.innerHTML = res.errorMessage;
+                }
+            }
+        }
+        function createPostView(post, root) {
+            const container = document.createElement('div');
+            const title = document.createElement('p');
+            const content = document.createElement('p');
+            const author = document.createElement('p');
+            const editLink = document.createElement('a');
+            const linkText = document.createTextNode('編集');
+
+            title.innerHTML = 'タイトル： ' + post.title;
+            content.innerHTML = '内容： ' + post.content;
+            author.innerHTML = '投稿者: ' + post.userName;
+
+            editLink.appendChild(linkText);
+            editLink.href = '/post/edit?postId=' + post.postId;
+
+            container.appendChild(title);
+            container.appendChild(content);
+            container.appendChild(author);
+            if (post.isEditable) {
+                container.appendChild(editLink);
+            }
+            console.log(post);
+            container.classList.add('post');
+
+            root.appendChild(container);
+        }
+
+    </script>
+
+    </html>
+
+    <%- include('footer')%>
