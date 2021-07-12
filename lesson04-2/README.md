@@ -27,7 +27,7 @@ git clone https://github.com/tsunemisandev/nodejs_lessons.git
 次のフォルダに移動
 
 ```bash
-cd lesson04
+cd lesson04-2
 ```
 
 そのフォルダ内に環境変数ファイル 「.env」 を作成\
