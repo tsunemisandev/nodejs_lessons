@@ -13,7 +13,7 @@ import AuthUtil from '../utils/AuthUtil';
 import { validationResult } from 'express-validator';
 
 class UserController {
-  async register(req: Request, res: Response, next: NextFunction) {
+  async register(req: Request, res: Response) {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -26,33 +26,27 @@ class UserController {
         //パスワードのハッシュを取得
         const hashedPassword = bcrypt.hashSync(password, auth.SALT);
         //DB登録用のユーザーオブジェクトを作成
-        const newUser = new User(name, email, hashedPassword);
+        const newUser = new User('', name, email, hashedPassword);
         //ユーザーをDBに挿入
-        const id = userDao.insert(newUser);
-        //jwtを生成
-        const token = AuthUtil.sign(newUser);
-        //jwtをクッキーにてクライアントに補完する
-        res.cookie('token', token, {
-          httpOnly: true,
+        await userDao.insert(newUser).then((id) => {
+          //Get registered user
+          userDao.getById(id[0]).then((regUser) => {
+            //jwtを生成
+            if (regUser) {
+              const token = AuthUtil.sign(regUser);
+              //jwtをクッキーにてクライアントに補完する
+              res.cookie('token', token, {
+                httpOnly: true,
+              });
+              res.status(200).json({ token: token });
+            }
+          });
         });
-        res.status(200).json({ token: token });
       } catch (e) {
         console.log(e);
         res.status(500).json({ error: '予期しないエラーが発生しました。' });
       }
     }
-  }
-
-  async validator() {
-    console.log('validator()');
-    await celebrate({
-      body: Joi.object().keys({
-        name: Joi.string().required(),
-        email: Joi.string().required().email(),
-        password: Joi.string().required(),
-        confirmPassword: Joi.any().valid(Joi.ref('password')).required(),
-      }),
-    });
   }
 
   registerPage(req: Request, res: Response) {

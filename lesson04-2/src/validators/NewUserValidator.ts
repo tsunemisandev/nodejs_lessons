@@ -6,7 +6,7 @@ export default [
   check('name').not().isEmpty().withMessage('必須項目です。'),
   check('name').custom(async (userName: any, req: any) => {
     const userDao: UserDao = new UserDao();
-    const user = new User(userName, '', '');
+    const user = new User('', userName, '', '');
     const registeredUser = await userDao.exists(user);
     if (registeredUser) {
       throw new Error('記入されたユーザー名は利用できません');

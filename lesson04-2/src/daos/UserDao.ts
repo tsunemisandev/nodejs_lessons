@@ -2,9 +2,12 @@ import knex from '../database/connection';
 import User from '../models/User';
 
 class UserDao {
+  async getById(id: string) {
+    return await knex<User>('users').where({ id: id }).first();
+  }
   async insert(user: User) {
     const { name, email, password } = user;
-    return await knex('users').insert({ name, email, password });
+    return await knex('users').insert({ name, email, password }, ['id']);
   }
 
   async exists(user: User) {

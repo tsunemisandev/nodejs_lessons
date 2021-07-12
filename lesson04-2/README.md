@@ -1,22 +1,4 @@
-# JS 課題 4-1
-
-【要件】
-
-- [1]新規登録画面&新規登録処理
-
-- [2]ログイン画面&ログイン処理
-
-  [https://s3-us-west-2.amazonaws.com/secure.notion-static.com/62b6d18e-6a5d-4cbf-810f-be7aa56fb92e/\_2020-10-18_14.33.39.mov](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/62b6d18e-6a5d-4cbf-810f-be7aa56fb92e/_2020-10-18_14.33.39.mov)
-
-- [3]ログイン成功（email と password の認証成功）で token が生成される。
-
-- [4]新規登録ないしログイン後に、ログアウトドロップダウンメニューが親テンプレートのメニュー上からログアウトが出来ていること。
-
-- [5]新規登録またはログインページ以外 token の認証処理が走り、ログインしていないユーザが入ろうとするとログインページにリダイレクトされること。（URL を直接叩くなどしても入れないようにすること）
-
-- [学習内容]
-  - 新規登録・ログインによるデータベース上の users テーブルとの紐付け
-  - token の管理方法（token 生成には JWT を使用してください）
+# JS 課題 4-2
 
 # Features
 
@@ -26,6 +8,9 @@
 - 新規ユーザーの登録
 - ログイン機能
 - ログアウト機能
+- 新規投稿の登録
+- 投稿の編集
+- 投稿一覧の表示
 
 # Requirement
 
@@ -85,9 +70,9 @@ docker-compose up
 
 ログイン済みの場合、
 
-- [posts へアクセス可能になります](http://localhost:3000/posts)
+- [全投稿の一覧 へアクセス可能になります](http://localhost:3000/post)
+- [新規投稿が出来ます](http://localhost:3000/post/new)
+- [自身の投稿が編集できます.クエリパラメータは登録時のものになります。](http://localhost:3000/posts/edit?postId=3)
 - [ログアウトリンク](http://localhost:3000/register)が常に表示されます。
 
 # Note
-
-新規登録に全角を使用するとエラーが発生します。今後の課題です。

@@ -34,7 +34,7 @@ function login(){
     req.onload = ()=>{
         let msg = '';
         if(req.status == 200){
-            window.location = '/posts';
+            window.location = '/post';
         }else {
             const errorMsg = JSON.parse(req.response);
             if(errorMsg.errors){
